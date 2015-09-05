@@ -4,12 +4,12 @@ LD=ld
 
 CFLAGS = -Wall -O0
 
-ctest:ctest.o
+c:ctest.o
 	${CC} -o $@ $<
-atest:atest.o
+a:atest.o
 	${LD} -o $@ $<
 clean:
-	rm -f *.o *~ ctest atest
+	rm -f *.o *~ c a
 
 .c.o:
 	${CC} -c -o $@ $< ${CFLAGS}
