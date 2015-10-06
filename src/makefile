@@ -1,6 +1,6 @@
 GCC=gcc
 AS=as
-OBJS=boot.o kernel.o
+OBJS=boot.o kernel.o vga.o
 CFLAGS = -Wall
 GLD=ld
 

@@ -58,7 +58,9 @@ size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
- 
+
+void update_cursor(int row,int col);
+
 void terminal_initialize() {
 	terminal_row = 0;
 	terminal_column = 0;
@@ -130,7 +132,7 @@ extern "C" /* Use C linkage for kernel_main. */
 void kernel_main() {
 	/* Initialize terminal interface */
 	terminal_initialize();
- 
+	update_cursor(0,0);
 	/* Since there is no support for newlines in terminal_putchar
 	 * yet, '\n' will produce some VGA specific character instead.
 	 * This is normal.
