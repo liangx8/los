@@ -5,6 +5,7 @@ msg:
 	.text
 	.global _start
 _start:
+	mov	$0, %rax
 	mov	$4, %eax
 	mov	$1, %ebx
 	mov	$msg, %ecx

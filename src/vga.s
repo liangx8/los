@@ -6,5 +6,8 @@ update_cursor:
 	mov		%esp,%ebp
 	mov		8(%ebp),%eax		# first argument
 	mov		12(%ebp),%ecx		# second argument
+	cmp		$0,%eax
+
+
 	pop		%ebp
 	ret

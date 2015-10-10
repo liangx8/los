@@ -65,6 +65,7 @@ void terminal_initialize() {
 	terminal_row = 0;
 	terminal_column = 0;
 	terminal_color = make_color(COLOR_RED, COLOR_BLACK);
+	// 这是一个超过32位的地址访问,因此可以判断肯定在保护模式
 	terminal_buffer = (uint16_t*) 0xB8000;
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
