@@ -3,7 +3,9 @@
 
 #include <stddef.h>
 #include <stdint.h>
- 
+
+//#define LOS_DECL __cdecl
+
 /* Check if the compiler thinks if we are targeting the wrong operating system. */
 //#if defined(__linux__)
 //#error "You are not using a cross-compiler, you will most certainly run into trouble"
@@ -59,7 +61,7 @@ size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
 
-void update_cursor(int row,int col);
+int update_cursor(size_t row,size_t col);
 
 void terminal_initialize() {
 	terminal_row = 0;
@@ -130,18 +132,20 @@ void iput(long v){
 #if defined(__cplusplus)
 extern "C" /* Use C linkage for kernel_main. */
 #endif
+
 void kernel_main() {
 	/* Initialize terminal interface */
 	terminal_initialize();
 	update_cursor(0,0);
+
+	
 	/* Since there is no support for newlines in terminal_putchar
 	 * yet, '\n' will produce some VGA specific character instead.
 	 * This is normal.
 	 */
-	for(int a=0;a<49;a++){
+	for(int a=0;a<5;a++){
 	  iput(a+100000);
 	  terminal_writestring(" Hello, kernel World!\n");
 	}
-
 
 }
