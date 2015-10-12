@@ -3,7 +3,6 @@
 |Register Addressing        |
 |:-------------------------:|
 |intel syntax |AT&T syntax|
-|:-----------:|:---------:|
 |mov ax,bx    |mov %bx,%ax|
 
 ### Immediate
