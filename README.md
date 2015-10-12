@@ -7,4 +7,6 @@ Learning OS - for learning how OS is working.
 * [Introduction to UNIX assembly programming](http://asm.sourceforge.net/intro/Assembly-Intro.html)
 * [Where Can I Find Information About Ports](http://wiki.osdev.org/Where_Can_I_Find_Information_About_Ports)
 * [Mixing Assembly and C](https://courses.engr.illinois.edu/ece390/books/labmanual/c-prog-mixing.html)
+* [Intel 80386 Programmer's Reference Manual](http://www.logix.cz/michal/doc/i386/)
+* [x86 Disassembly/Calling Conventions](https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions)
 
