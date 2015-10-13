@@ -1,6 +1,10 @@
-# los
-Learning OS - for learning how OS is working.
+LOS - for learning how OS is working.
 =============================================
+
+src中的代码编译在ARCH LINUX中的GCC 5.0, 在QEMU中用 -kernel 参数可以直接运行
+
+### reference
+
 * [OS developement wiki](http://wiki.osdev.org)
 * [Learning 80x86 Assembly](http://wiki.osdev.org/Learning_80x86_Assembly)
 * [x86 Assembly](https://en.wikibooks.org/wiki/X86_Assembly)
