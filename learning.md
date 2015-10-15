@@ -73,3 +73,7 @@ IA-32架构下透明的分页.
 
 ## USING SEGMENTS
 (摘自 INTEL 官方文档 SYSTEM PROGRAMMING GUID 3.2 )
+
+IA-32支持的的`分段`机制能够被用于各种系统设计中.
+### Basic Flat Model
+用于系统最简单的内存模式是"flat model",操作系统和应用程序共享一个连续的没有分段的地址空间.
