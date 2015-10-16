@@ -74,6 +74,59 @@ IA-32架构下透明的分页.
 ## USING SEGMENTS
 (摘自 INTEL 官方文档 SYSTEM PROGRAMMING GUID 3.2 )
 
-IA-32支持的的`分段`机制能够被用于各种系统设计中.
+IA-32支持的的`分段`机制能够被用于各种系统设计中.These designs range from flat models that models that make only minimal use of segmentation to protect programs to multi-segmented models that employ segmentation to create a robust operating environment in which multiple programs and tasks can be executed reliably.
 ### Basic Flat Model
-用于系统最简单的内存模式是"flat model",操作系统和应用程序共享一个连续的没有分段的地址空间.
+用于系统最简单的内存模式是"flat model",操作系统和应用程序共享一个连续的没有分段的地址空间.尽可能地,basic flat model为系统设计者和程序员隐藏分段机制.
+
+在IA-32机制中实现flat model,最少2个段描术必需被建立,一个是代码段一个是数据端,2个段都影射到整个linear address space:这就是说,2个段都有一个基本地址0,和最大的访问空间4G. By setting the segment limit to 4 GBytes ... ...
+
+### Protected Flat Model
+### Mult-Segment Model
+### Segmentation in IA-32e Mode
+### Paging and Segmentation
+`分页` 能被用在一上所有模式
+### PHYSICAL ADDRESS SPACE
+#### Intel 64 Processors and Physical Address Sapce
+### LOGICAL AND LINEAR ADDRESSES
+在保护模式的系统架构层,处理器使2种地址翻译阶段得到物理地址:逻辑地址翻译(logical-address translation)和线性地址空间分页(linear address space paging).
+
+就算是最小的使用分段,处理器在访问每个字节都使用逻辑地址(logical address).逻辑地址由16位段选择器和32位偏移组成.
+#### Logical Address Translation in IA-32e Mode
+#### Segment Selectors
+段选择器是一个16位的段ID,它不是直接指向段,而是指向段描述(segment descriptor).段选择器由下面几部分组成:
+- Index (bit3 到 bit15) 在8192个(GDT or LDT)中选择. index * 8 加上GDT或LDT的开始地址.
+- TI(Table indicator) flag (bit2) 指定表类型, 0- GDT 1-LDT
+- Requested Privilege Level(RPL) (Bit0/1) 指定权限选择器,权限可选 0~3, See Section 5.5, "privilege Levels", for a description of the relationship of the RPL to the CPL of the executing program(or task) and teh descriptor privilege level(DPL) of the descriptor the segement selector points to.
+
+GDT的第一个数据不给处理器使用. ... ...
+
+#### Segment Registers
+
+#### Segment Loading Instructions in IA-32e Mode
+
+#### Segment Descriptor
+8字节(64位)接组成,
+- Segment Limit15:0  [15:0]
+- Base Address15:0   [31:16]
+- Base address 23:16 [39:32]
+- Segment Type       [43:40]
+- S Descriptor Type  [44]
+- DPL                [46:45]
+- Segment Present    [47]
+- Segment Limit19:16 [51:48]
+- Available for use by system software [52]
+- 64-bit code segment(IA-32e mode only) [53]
+- Default operation size (0=16-bit segment; 1= 32bit segment) [54]
+- Granularity [55]
+- Base Address31:24 [63:55]
+
+1. Segment limit field
+    定义段的大小，处理器根据 Granularity 标记解释2种Segment limit
+    - 如果Granularity为0，段以1字节为单位，最大能定义 1MByte
+    - 如果Granularity为1，段以4KByte为单位，最大能定义 4GByte。
+
+    如果logical address中的offset大于(增加)／小于(减少)limi，就会发生一个general-protection exceptionst 或者 stack-fault excpetions
+
+2. Base address field
+    段的开始地址,16字节对齐
+3. Segment Type field
