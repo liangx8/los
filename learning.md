@@ -130,3 +130,15 @@ GDT的第一个数据不给处理器使用. ... ...
 2. Base address field
     段的开始地址,16字节对齐
 3. Segment Type field
+    指定段的类型,生长的方向.类型的编码是根据代码,数据,系统描述而不同
+4. S(Descriptor type)flag
+    1 system segment, 0 code or data segment
+5. DPL(descriptor privilege level) field
+    指定权限级别.
+6. P(segment-present) flag
+    Indicates whether the segment is present in memory(set) or not present(clear).
+7. D/B (default operation size/default stack pointer size and/or uper bund) flag
+        * 可执行代码段(Executable code segment). 这个标记称作D,设1, 代码指令32bit/8bit.设0,16bit,指令前缀66和67仍然有效
+		* 栈段(stack segment) 这个标记称作B, 指定某些指令(如:push pop call)操作符大小 1- 32 0-16
+		* 向下生长段(Expand-down data segment)这个标记称作B, 1 段的上边界为0xFFFFFFFF(4 GBytes) 0 0xFFFF(64KBytes)
+8. G(granularity)flag
