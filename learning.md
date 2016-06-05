@@ -39,13 +39,12 @@ virtual-memory system where 程序部分执行环境根据需要被映射(mapped
 两种机制能被设置用在单程序(或者单任务)系统,多任务系统或者共享内存的多处理器系统中.
 
 看表 3-1， `分段`为把处理器的可访问地址空间(*linear address space*)分开到更小的保护地址空间(*segments*)提供一个机制
-*segment* 为程序存放代码，数据和栈或者存放系统数据结构（例如TSS或者LDT).如果超过一个程序(或任务)运行在处理器中,每个
-程序会被安排到自己的*Segment*中.如果超过一个程序(或任务)运行在处理器中,每个程序会被安排到自己的*segment*中.处理器负
-责划分*segment*的边界和保障程序不会互相之间干扰(The processor then enforces the boundaries between these segments
-and insures that one program does onot interfer with the execution f another program by writing into the other program's
-segments).分段机制也允许typing of segments(??)因此,执行常规type of segemnt 能够被限制(The segmentation mechanism
-also allows typing of segments so that the operations that may be performed on a particular type of segment can be
-restricted).
+*segment* 为程序存放代码，数据和栈或者存放系统数据结构（例如TSS或者LDT).如果超过一个程序(或任务)运行在处理器中,每个程
+序会被安排到自己的*segment*中.处理器负责划分*segment*的边界和保障程序不会互相之间干扰(The processor then enforces
+the boundaries between these segments and insures that one program does onot interfer with the execution of
+another program by writing into the other program's segments).分段机制也允许typing of segments(??)因此,执行常
+规type of segemnt 能够被限制(The segmentation mechanism also allows typing of segments so that the operations
+that may be performed on a particular type of segment can be restricted).
 
 在系统中全部的segment被放在处理器的linear address space. 在一个常规segment定位一个字节,必须提供逻辑地址(logical address)
 或者叫far pointer.一个逻辑地址由段选择(segment selector)和偏移(offset)组成.段选择器是唯一对应一个段,它提供一个描述表
@@ -62,7 +61,7 @@ memory), 就需要某些"虚拟"的linear address space.这些虚拟linear addre
 
 `分页`支持"虚拟内存"环境,让一个大的linear address space 模拟在一个小的物理内存(RAM和ROM)和磁盘存储器上.当使用`分页`时,
 每一个segment被分成多个页(基本是4KB一页),并被存放在内存和磁盘上.操作系统维护一个页目录(page directory)和设置分页表(page
-table),以便于跟踪没个page,处理器用page directory和page table 翻译linear address 到一个物理地址然后执行一个在内存上的读写
+table),以便于跟踪每个page,处理器用page directory和page table 翻译linear address 到一个物理地址然后执行一个在内存上的读写
 请求.
 
 如果被访问的page不在物理内存上,处理器会中断执行(产生一个page-fault exception).操作系统从磁盘上读page到物理内存然后继续执
@@ -74,13 +73,19 @@ IA-32架构下透明的分页.
 ## USING SEGMENTS
 (摘自 INTEL 官方文档 SYSTEM PROGRAMMING GUID 3.2 )
 
-IA-32支持的的`分段`机制能够被用于各种系统设计中.These designs range from flat models that models that make only minimal use of segmentation to protect programs to multi-segmented models that employ segmentation to create a robust operating environment in which multiple programs and tasks can be executed reliably.
-### Basic Flat Model
-用于系统最简单的内存模式是"flat model",操作系统和应用程序共享一个连续的没有分段的地址空间.尽可能地,basic flat model为系统设计者和程序员隐藏分段机制.
+IA-32支持的的`分段`机制能够被用于各种系统设计中.这种设计从 flat models 到 mult-segmented models,flat models 最小的使用
+segmentation 来保护程序, multi-segments 应用段来建立一个强壮的操作环境而令多任务能够被稳定的执行.
 
-在IA-32机制中实现flat model,最少2个段描术必需被建立,一个是代码段一个是数据端,2个段都影射到整个linear address space:这就是说,2个段都有一个基本地址0,和最大的访问空间4G. By setting the segment limit to 4 GBytes ... ...
+### Basic Flat Model
+用于系统最简单的内存模式是"flat model",操作系统和应用程序共享一个连续的没有分段的地址空间.尽可能地,basic flat model为系
+统设计者和程序员隐藏分段机制.
+在IA-32机制中实现flat model,最少2个段描术必需被建立,一个是代码段一个是数据端,2个段都影射到整个linear address space:这就
+是说,2个段都有一个基本地址0,和最大的访问空间4G. 限制segment在 4G以内，就算没有物理内存配置在系统上，段机制防止发生超出内
+存限制异常，ROM(EPROM)被放置在内存的顶部空间,因为处理器从FFFF_FFF0H开始执行,RAM(DRAM) 放置在底部,因为DS 寄存器会被初始化
+为0
 
 ### Protected Flat Model
+The protected flat model is similar to the basic flat model,
 ### Mult-Segment Model
 ### Segmentation in IA-32e Mode
 ### Paging and Segmentation
@@ -142,3 +147,14 @@ GDT的第一个数据不给处理器使用. ... ...
 		* 栈段(stack segment) 这个标记称作B, 指定某些指令(如:push pop call)操作符大小 1- 32 0-16
 		* 向下生长段(Expand-down data segment)这个标记称作B, 1 段的上边界为0xFFFFFFFF(4 GBytes) 0 0xFFFF(64KBytes)
 8. G(granularity)flag
+
+
+##CHAPTER 6 INTERRUPT AND EXCEPTION HANDLING
+(6.2 exception and interrupt vectors)
+协助处理异常和中断，每种架构定义异常和每种中断条件要求的特殊处理，处理器定义了唯一的ID号码叫vector number,处理器使用vector
+number 关联到一个异常或中断的IDT(Interrupt Descriptor Table)中
+vector number 从 0 到 255， 0 到 31 为Intel 64和 IA-32架构保留，这个范围内的vector number不是全部都使用的
+Vector number 32 到 255为用户(我理解为系统设计者)使用,这些中断让外部I/O设备发出硬件中断到处理器通过其中一个外部硬件中断机制
+
+### 6.10 INTERRUPT DESCRIPTOR TABLE
+IDT基础地址必须8字节对齐
