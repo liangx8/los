@@ -19,13 +19,14 @@ clean:
 
 
 
-c:ctest.o
-	${GCC} -o $@ $<
+c:ctest.o casm.o
+	${GCC} -o $@ ctest.o casm.o 
 a:atest.o
 	${GLD} -o $@ $<
 
-
+casm.o:casm.s
+	${AS} -o $@ $<
 ctest.o:ctest.c
-	${CC} -c -o $@ $< ${CFLAGS}
+	${CC} -c -o $@ $< 
 atest.o:atest.s
 	${AS} -o $@ $<

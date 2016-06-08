@@ -147,8 +147,9 @@ GDT的第一个数据不给处理器使用. ... ...
 		* 栈段(stack segment) 这个标记称作B, 指定某些指令(如:push pop call)操作符大小 1- 32 0-16
 		* 向下生长段(Expand-down data segment)这个标记称作B, 1 段的上边界为0xFFFFFFFF(4 GBytes) 0 0xFFFF(64KBytes)
 8. G(granularity)flag
-
-
+9. L(64-bit code segment)flag
+   		* 在IA-32e模式，1代表这个代码段的指令是64-bit模式，0代表兼容模式。如果L bit置位，D bit必须清除,如果不是IA-32e模
+		式或在没有代码，此位保留并且为0
 ##CHAPTER 6 INTERRUPT AND EXCEPTION HANDLING
 (6.2 exception and interrupt vectors)
 协助处理异常和中断，每种架构定义异常和每种中断条件要求的特殊处理，处理器定义了唯一的ID号码叫vector number,处理器使用vector
