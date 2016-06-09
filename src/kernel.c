@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#include "utils.h"
 //#define LOS_DECL __cdecl
 
 /* Check if the compiler thinks if we are targeting the wrong operating system. */
@@ -66,6 +67,17 @@ uint16_t* terminal_buffer;
 int __attribute__((stdcall)) update_cursor(size_t row,size_t col);
 uint32_t cpu_flag(void);
 uint32_t* cr_flag(void);
+
+void set_cursor(size_t row,size_t col)
+{
+		size_t offset=col + row * 80;
+		//crt control reigister 14
+		outb(0x3d4,14);
+		outb(0x3d5,(offset >> 8) );
+		//crt control reigister 15
+		outb(0x3d4,15);
+		outb(0x3d5,offset);
+}
 void terminal_initialize()
 {
 		terminal_row = 0;
@@ -131,7 +143,7 @@ void terminal_writestring(const char* data)
 		while(data[i]){
 				terminal_putchar(data[i++]);
 		}
-		update_cursor(terminal_row,terminal_column);
+		set_cursor(terminal_row,terminal_column);
 }
 void hput(uint32_t v)
 {
