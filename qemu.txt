@@ -1,0 +1,4 @@
+#连接文件
+qemu-nbd -c /dev/nbd? ???.qcow2
+#断开连接
+qemu-nbd -d /dev/nbd?

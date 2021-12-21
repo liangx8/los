@@ -1,0 +1,3 @@
+运行自定义内核使用
+multiboot
+efi和legacy引导的结果有不同。
