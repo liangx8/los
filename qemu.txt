@@ -1,3 +1,5 @@
+# 加载nbd模块
+modprobe nbd
 #连接文件
 qemu-nbd -c /dev/nbd? ???.qcow2
 #断开连接
