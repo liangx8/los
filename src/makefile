@@ -1,7 +1,11 @@
 GCC=gcc
 AS=as
 OBJS=boot.o kernel.o vga.o
-CFLAGS=-std=gnu99 -ffreestanding -Wall -Wextra -m32
+CFLAGS=-std=gnu99
+CFLAGS+=-ffreestanding
+CFLAGS+=-Wall
+CFLAGS+=-Wextra
+CFLAGS+=-m32
 GLD=ld
 
 all:kernel.elf
@@ -20,7 +24,7 @@ clean:
 
 
 c:ctest.o casm.o
-	${GCC} -o $@ ctest.o casm.o 
+	${GCC} -o $@ ctest.o casm.o
 a:atest.o
 	${GLD} -o $@ $<
 

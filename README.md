@@ -14,3 +14,6 @@ src中的代码编译在ARCH LINUX中的GCC 5.0, 在QEMU中用 -kernel 参数可
 * [Intel 80386 Programmer's Reference Manual](http://www.logix.cz/michal/doc/i386/)
 * [x86 Disassembly/Calling Conventions](https://en.wikibooks.org/wiki/X86_Disassembly/Calling_Conventions)
 
+### 搜索关键字
+* 保护模式
+* 分页内存管理
